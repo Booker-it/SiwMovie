@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Film</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+	
+	<h1>Dettagli Film</h1>
+	<div th:if="${movie}">
+		<span th:text="${movie.title}">Up!</span>
+		<span th:text="'(' + ${movie.year} + ')'">2000</span>
+		
+		<div th:if="${movie.poster}">
+			<img width="10%" th:src="@{'/display/image/' + ${movie.poster.id}}"/>
+		</div>
+		<div>
+			<h2>Attori: </h2>
+			<div th:each="actor: ${movie.actors}">
+				<span th:text="${actor.name} + ' ' + ${actor.surname}">Al Pacino</span>
+			</div>
+		</div>
+		
+		<div>
+			<h2>Direttore: </h2>
+			<span th:if="${movie.director}" th:text="${movie.director.name} + ' ' + ${movie.director.surname}"></span>
+			<span th:unless="${movie.director}"> Nessun Direttore</span>
+		</div>
+	</div>
+	<h2> Recensioni:</h2>
+		<div>
+			<a th:href="@{'/registered/formAddReview/' + ${movie.id}}">
+			<button type="button">Recensisci questo film </button>
+			</a>
+		</div>
+		
+		<ul>
+		<li th:each="review: ${movie.reviews}">
+			
+			<div>
+				<span th:text="'Autore: ' + ${review.author.name}">User</span>
+			</div>
+			
+			<div>
+				<span th:text="'Titolo: ' + ${review.title}">titolo</span>
+			</div>
+			
+			<div>
+				<span th:text="'Commento: ' +${review.text}">Commento</span>
+			</div>
+			
+		</li>
+		</ul>
+	
+	<div th:unless="${movie}">Non esiste</div>
+</body>
+</html>

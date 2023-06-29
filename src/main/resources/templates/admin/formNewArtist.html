@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Artist
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+	<h1>Aggiungi un artista</h1>
+	<form th:action="@{/admin/artist}" method="POST" th:object="${artist}" enctype="multipart/form-data">
+		<div th:if="${#fields.hasGlobalErrors()}">
+  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+  		</div>
+		
+		<div>
+			<label>Nome:</label> 
+			<span><input required type="text" th:field="${artist.name}" /></span>
+			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+		</div>
+
+		<div>
+			<label>Cognome:</label> 
+			<span><input required type="text" th:field="${artist.surname}" /></span>
+			<span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+		</div>
+
+		<div>
+			<label>Data di nascita:</label> <span><input type="date" th:field="${artist.dateOfBirth}" /></span>
+		</div>
+		
+		<div>
+			<label>Data di morte:</label> <span><input type="date" th:field="${artist.dateOfDeath}" /></span>
+		</div>
+		
+		<div id="artist-image">
+			<h1>Fotografia Artista</h1>
+			<div id="picture" >
+				<input id="file" type="file" name="image" accept="image/png, image/jpeg" />
+			</div>
+		</div>
+		
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Artista</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+    <h1>Dettagli Artista</h1>
+    <div th:if="${artist}">
+        <span th:text="${artist.name} + ' ' + ${artist.surname}">Dino Risi</span>
+        <span th:text="'(' + ${artist.dateOfBirth} + ')'">20/20/2000</span>
+        <span th:text="'(' + ${artist.dateOfDeath} + ')'">20/20/2300</span>
+        <div th:if="${artist.photo}">
+	        <img width="10%" th:src="@{'/display/image/' + ${artist.photo.id}}"/>
+   		</div>
+    </div>
+    <div th:unless="${artist}">Non esiste</div>
+  </body>
+</html>

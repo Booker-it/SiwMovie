@@ -1,0 +1,17 @@
+package it.uniroma3.siw.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import it.uniroma3.siw.model.Movie;
+import it.uniroma3.siw.model.Review;
+import it.uniroma3.siw.model.User;
+
+public interface ReviewRepository extends CrudRepository<Review, Long>{
+	
+	public boolean existsByTitleAndAuthorAndTextAndMovieReviewed(String title, User author, String text, Movie movieReviewed);
+	
+	public boolean existsByTitle(String title);
+	
+	
+
+}

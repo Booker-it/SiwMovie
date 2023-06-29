@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Film</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+	<h1>Film</h1>
+	<div th:if="${movies.isEmpty()}">Non ci sono film nel sistema</div>
+	<ul>
+		<li th:each="movie : ${movies}">
+			<span th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up! (2000)</span>
+			<a th:href="@{'/admin/formUpdateMovie' + '/' + ${movie.id}}">Aggiorna</a>
+		</li>
+	</ul>
+</body>
+
+</html>

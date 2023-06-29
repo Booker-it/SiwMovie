@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		SiwMovie - Homepage
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+	<h1>Consulta l'archivio</h1>
+	<div>
+		<a href="/movie">Elenco Film</a>
+	</div>
+	<div>
+		<a href="/artist">Elenco Artisti</a>
+	</div>
+</body>
+
+</html>
