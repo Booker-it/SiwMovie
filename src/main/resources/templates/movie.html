@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Film</title>
+	<title>Dettagli Film</title>
+	<meta charset="utf-8">
 	<link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/movie.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -13,52 +17,99 @@
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
 	
-	<h1>Dettagli Film</h1>
-	<div th:if="${movie}">
-		<span th:text="${movie.title}">Up!</span>
-		<span th:text="'(' + ${movie.year} + ')'">2000</span>
-		
-		<div th:if="${movie.poster}">
-			<img width="10%" th:src="@{'/display/image/' + ${movie.poster.id}}"/>
-		</div>
-		<div>
-			<h2>Attori: </h2>
-			<div th:each="actor: ${movie.actors}">
-				<span th:text="${actor.name} + ' ' + ${actor.surname}">Al Pacino</span>
-			</div>
-		</div>
-		
-		<div>
-			<h2>Direttore: </h2>
-			<span th:if="${movie.director}" th:text="${movie.director.name} + ' ' + ${movie.director.surname}"></span>
-			<span th:unless="${movie.director}"> Nessun Direttore</span>
-		</div>
-	</div>
-	<h2> Recensioni:</h2>
-		<div>
-			<a th:href="@{'/registered/formAddReview/' + ${movie.id}}">
-			<button type="button">Recensisci questo film </button>
-			</a>
-		</div>
-		
-		<ul>
-		<li th:each="review: ${movie.reviews}">
+	<main th:if="${movie}" class="container">
+		<h2 th:text="${movie.title} + '(' + ${movie.year} + ')'"  >Up 2000</h2>
+		<div class="mb-4 rounded text-body-emphasis bg-body-secondary">
 			
-			<div>
-				<span th:text="'Autore: ' + ${review.author.name}">User</span>
+			<div id="hero-carousel" class="carousel slide">
+				<div class="carousel-indicators">
+					<button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+					<button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+					<button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+					<button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+				</div>
+				<div class="carousel-inner">
+					<div class="carousel-item active c-item"> 
+						<img src="/images/cinema.jpg" class="d-block w-100 c-img" alt="Slide1">
+					</div>
+					<div class="carousel-item  c-item" th:each=" scene : ${movie.scenes}"> 
+						<img th:src="@{'/display/image/'} + ${scene.id}" class="d-block w-100 c-img" alt="Slide">
+					</div>
+					
+				
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
 			</div>
 			
-			<div>
-				<span th:text="'Titolo: ' + ${review.title}">titolo</span>
+		</div>
+
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					<div class="col p-4 d-flex flex-column position-static">
+						<h3 class="mb-0">Attori:</h3>
+						<div th:each="actor: ${movie.actors}">
+							<span class="card-text mb-auto" th:text="${actor.name} + ' ' + ${actor.surname}">Al Pacino</span>
+						</div>
+					</div>
+					<div class="col-auto d-none d-lg-block">
+						<img class="bd-placeholder-img" width="200" height="250"  src="/images/perAttori.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false" />
+					</div>
+				</div>
 			</div>
 			
-			<div>
-				<span th:text="'Commento: ' +${review.text}">Commento</span>
+			<div class="col-md-6">
+				<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					<div class="col p-4 d-flex flex-column position-static">
+						<h3 class="mb-0">Regista:</h3>
+						
+						<p class="mb-auto" th:if="${movie.director}" th:text="${movie.director.name} + ' ' + ${movie.director.surname}"></p>
+						<p class="mb-auto" th:unless="${movie.director}"> Nessun Direttore</p>
+					</div>
+					<div class="col-auto d-none d-lg-block">
+						<img class="bd-placeholder-img" width="200" height="250"  src="/images/regista.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row g-5">
+			<div class="d-grid gap-2">
+				<a th:href="@{'/registered/formAddReview/' + ${movie.id}}"><button class="btn btn-success" type="button">Recensisci questo film</button></a>
 			</div>
 			
-		</li>
-		</ul>
-	
+			<h2> Recensioni:</h2>
+			<ol>
+				 
+				<li th:each="review: ${movie.reviews}">
+					<div class="bg-body-tertiary mb-3">
+					<div class="d-flex text-body-secondary pt-3 ">
+     					 <p class="material-icons"> account_circle</p>
+
+     					 <p class="pb-3 mb-0 small lh-sm border-bottom">
+      					 <strong class="d-block text-gray-dark" th:text="'Voto: ' + ${review.rating} +'/5'">Voto</strong>
+       				
+       						 <span th:text="${review.author.name}">Autore</span>
+     					 </p>
+   				 	</div>
+					<strong th:text="'Titolo:'"></strong>
+					<span th:text="${review.title}">titolo</span>
+					
+					<div>
+						<strong th:text="'Commento:'"></strong>
+						<span th:text="${review.text}">Commento</span>
+					</div>
+					</div>
+				</li>
+			</ol>
+		</div>
+	</main>
 	<div th:unless="${movie}">Non esiste</div>
 </body>
 </html>

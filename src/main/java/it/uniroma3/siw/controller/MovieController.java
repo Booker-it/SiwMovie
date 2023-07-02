@@ -57,7 +57,7 @@ public class MovieController {
 		if(movie!=null)
 			model.addAttribute("movie", movie);
 		else {
-			return "movieError.html";
+			return "/errors/movieError.html";
 		}
 		return "admin/formUpdateMovie.html";
 	}
@@ -82,7 +82,7 @@ public class MovieController {
 			return "admin/formUpdateMovie.html";
 		}
 		else {
-			return "movieError.html";
+			return "/errors/movieError.html";
 		}
 	}
 
@@ -95,25 +95,25 @@ public class MovieController {
 			model.addAttribute("movie",movie);
 			return "admin/directorsToAdd.html";
 		}
-		return "movieError.html";
+		return "/errors/movieError.html";
 	}
 
 	@PostMapping("/admin/movie")
 	public String newMovie(@Valid @ModelAttribute("movie") Movie movie, BindingResult bindingResultMovie, 
-			@ModelAttribute FileUploadUtil fileUpload, BindingResult bindingResultFileUpload, Model model) {
+			@Valid @ModelAttribute FileUploadUtil fileUpload, BindingResult bindingResultFileUpload, Model model) {
 
 		this.movieValidator.validate(movie, bindingResultMovie);
 		this.fileValidator.validate(fileUpload, bindingResultFileUpload);
 
 		if (!bindingResultMovie.hasErrors() && !bindingResultFileUpload.hasErrors()) {
 			try {
-				model.addAttribute("movie",this.movieService.createNewMovie(movie, fileUpload.getImage())); 
+				model.addAttribute("movie",this.movieService.createNewMovie(movie, fileUpload.getImage(), fileUpload.getScenesMovie())); 
 				return "movie.html";
 			}
 			catch (IOException e) {
 				// TODO: handle exception
 				//aggiungere informazione per utente per l'errore
-				return "admin/formNewMovie.html";
+				return "/errors/genericError.html";
 			}
 		} 
 		else {
@@ -130,7 +130,7 @@ public class MovieController {
 			return "movie.html";
 		}
 		else
-			return "movieError.html";
+			return "/errors/movieError.html";
 	}
 
 	@GetMapping("/movie")
@@ -160,7 +160,7 @@ public class MovieController {
 			model.addAttribute("movie",movie);
 			return "admin/actorsToAdd.html";
 		}
-		return "movieError.html";
+		return "/errors/movieError.html";
 	}
 
 	@GetMapping(value="/admin/addActorToMovie/{actorId}/{movieId}")
@@ -175,7 +175,7 @@ public class MovieController {
 			return "admin/actorsToAdd.html";
 		}
 		else
-			return "movieError.html";
+			return "/errors/movieError.html";
 	}
 
 	@GetMapping(value="/admin/removeActorFromMovie/{actorId}/{movieId}")
@@ -191,7 +191,7 @@ public class MovieController {
 			return "admin/actorsToAdd.html";
 		}
 		else
-			return "movieError.html";
+			return "/errors/movieError.html";
 
 	}
 
@@ -204,7 +204,7 @@ public class MovieController {
 			return "admin/formUpdateMovie.html";
 		}
 		else
-			return "movieError.html";
+			return "/errors/movieError.html";
 	}
 
 
@@ -215,6 +215,72 @@ public class MovieController {
 		return "/admin/indexMovie.html";
 	}
 	
+	
+	/*************************** Poster Update Movie******************************/
+	
+	@GetMapping(value="/admin/posterChange/{movieId}")
+	public String posterChange(@PathVariable("movieId") Long movieId, Model model) {
+		Movie movie = movieService.findMovieById(movieId);
+		if(movie!=null)
+			model.addAttribute("movie", movie);
+		else {
+			return "/errors/movieError.html";
+		}
+		return "/admin/posterChange.html";
+	}
+	
+	@PostMapping(value="/admin/updatePosterToMovie/{movieId}")
+	public String updatePosterToMovie(@PathVariable("movieId") Long movieId, 
+			@ModelAttribute FileUploadUtil fileUpload, BindingResult bindingResult, Model model) {
+
+		this.fileValidator.validate(fileUpload, bindingResult);
+
+		if (!bindingResult.hasErrors()) {
+			try {
+				model.addAttribute("movie",this.movieService.updatePosterToMovie(movieId,fileUpload.getImage())); 
+				return "redirect:/admin/formUpdateMovie/" + movieId;
+			}
+			catch (IOException e) {
+				return "admin/manageMovies.html";
+			}
+		} 
+		else {
+			return "admin/manageMovies.html"; 
+		}
+	}
+	
+	/*************************** Scenes Update Movie******************************/
+	
+	@PostMapping(value="/admin/updateScenesToMovie/{movieId}")
+	public String updateScenesToMovie(@PathVariable("movieId") Long movieId, 
+			@ModelAttribute FileUploadUtil fileUpload, BindingResult bindingResult, Model model) {
+
+		this.fileValidator.validate(fileUpload, bindingResult);
+
+		if (!bindingResult.hasErrors()) {
+			try {
+				model.addAttribute("movie",this.movieService.updateScenesToMovie(movieId,fileUpload.getScenesMovie())); 
+				return "redirect:/admin/formUpdateMovie/" + movieId;
+			}
+			catch (IOException e) {
+				return "admin/manageMovies.html";
+			}
+		} 
+		else {
+			return "admin/manageMovies.html"; 
+		}
+	}
+	
+	@GetMapping(value="/admin/scenesChange/{movieId}")
+	public String scenesChange(@PathVariable("movieId") Long movieId, Model model) {
+		Movie movie = movieService.findMovieById(movieId);
+		if(movie!=null)
+			model.addAttribute("movie", movie);
+		else {
+			return "/errors/movieError.html";
+		}
+		return "/admin/scenesChange.html";
+	}
 	
 	
 	/************************************************** REVIEWS **************************************************/

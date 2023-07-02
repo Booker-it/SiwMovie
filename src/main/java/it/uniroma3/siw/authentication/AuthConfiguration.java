@@ -52,15 +52,12 @@ import javax.sql.DataSource;
                 .authorizeHttpRequests()
 //                .requestMatchers("/**").permitAll()
                 // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
-                .requestMatchers(HttpMethod.GET,"/","/index","/register","/css/**", "/images/**", "favicon.ico", "/artist/**","/movie/**").permitAll()
+                .requestMatchers(HttpMethod.GET,"/","/index","/register","/css/**", "/images/**", "favicon.ico", "/artist/**","/movie/**","display/**").permitAll()
         		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
                 .requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
                 .requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
                 .requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
-                // solo gli utenti registrati possono accedere a registered nota: superflue non servono
-//                .requestMatchers(HttpMethod.GET,"/registered/**").authenticated()
-//                .requestMatchers(HttpMethod.POST,"/registered/**").authenticated()
-        		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
+        		// tutti gli utenti autenticati possono accedere alle pagine rimanenti 
                 .anyRequest().authenticated()
                 // LOGIN: qui definiamo il login
                 .and().formLogin()

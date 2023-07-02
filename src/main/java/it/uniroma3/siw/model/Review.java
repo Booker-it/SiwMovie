@@ -21,7 +21,7 @@ public class Review {
 	private String title;
 
 	@Min(1)
-	@Max(10)
+	@Max(5)
 	private Integer rating;
 
 	@Length(max = 200)

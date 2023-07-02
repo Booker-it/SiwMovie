@@ -6,28 +6,48 @@
 		SiwMovie - Homepage
 	</title>
 	<link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/index.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
 	<header>
 		<div th:replace="~{/fragments/header :: header}"></div>
 	</header>
-
 	<div th:replace="~{/fragments/logo :: logo}"></div>
-	<h1>Consulta l'archivio</h1>
-	<div>
-		<a href="/movie">Elenco Film</a>
-	</div>
-	<div>
-		<a href="/artist">Elenco Artisti</a>
-	</div>
-	<h1>Operazioni per amministratore</h1>
-	<div>
-		<a href="/admin/indexMovie">Operazioni sui film</a>
-	</div>
-	<div>
-		<a href="/admin/indexArtist">Operazioni sugli artisti</a>
+	
+	<div class="container my-5 d-flex justify-content-center ">
+		
+		<div class="p-5 m-5 bg-body-tertiary rounded-3">
+			<svg class="bi mt-4 mb-4" style="color: var(--bs-indigo);" width="100" height="1"><img height="150px" src="/images/logoMin.png"></svg>
+			<h1 class="text-body-emphasis c-item">Consulta l'archivio</h1>
+			
+			<div class="d-inline-flex gap-2 mb-5">
+				<a href="/movie"> <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button"> 
+					Elenco film
+				</button></a>
+				
+				<a href="/artist"><button class="btn btn-primary btn-lg px-4 rounded-pill" type="button">
+					Elenco artisti
+				</button></a>
+			</div>
+		</div>
+		
+		<div class="p-5 m-5 bg-body-tertiary rounded-3">
+			<svg class="bi mt-4 mb-4" style="color: var(--bs-indigo);" width="200" height="1"><img height="150px" src="/images/logoMin.png"></svg>
+			<h1 class="text-body-emphasis c-item">Operazioni per amministratore</h1>
+			
+			<div class="d-inline-flex gap-2 mb-5">
+				<a href="/admin/indexMovie"> <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button"> 
+					Operazioni sui film
+				</button></a>
+				
+				<a href="/admin/indexArtist"><button class="btn btn-primary btn-lg px-4 rounded-pill" type="button">
+					Operazioni sugli artisti
+				</button></a>
+			</div>
+		</div>
 	</div>
 </body>
 

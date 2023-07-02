@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Movie
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+	
+	<div th:if="${movie}">
+		
+		<form class="container pt-5"  th:action="@{'/admin/updatePosterToMovie/' + ${movie.id}}" method="POST" th:object="${movie}" enctype="multipart/form-data">
+  		<div th:if="${#fields.hasGlobalErrors()}">
+  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+  		</div>
+
+		<div id="movie-image">
+			<h1 th:text="'Nuova locandina per il film ' + ${movie.title}">Nuova locandina per il film</h1>
+			<div id="picture" class="mb-3" >
+				<input class="form-control" id="file" type="file" name="image" accept="image/png, image/jpeg" required />
+			</div>
+		</div>
+		<div>
+			<button class="btn btn-outline-success" type="submit">Conferma</button>
+		</div>
+	</form>
+	<div th:unless="${movie}">Film non esistente</div>
+</body>
+
+</html>

@@ -5,8 +5,12 @@
 	<title>
 		SiwMovie - Registrazione
 	</title>
+	<meta charset="utf-8">
 	<link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/recensione.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -15,39 +19,55 @@
 	</header>
 	<div th:replace="~{/fragments/logo :: logo}"></div>
 	
-	
 	<h1 th:text ="'Nuova Recensione per ' + ${movie.title}" >Nuova Recensione</h1>
-	<form th:action="@{'/registered/addReviewToMovie/'+ ${movie.id}}" method="POST" th:object ="${review}">
-		<div th:if="${#fields.hasGlobalErrors()}">
-  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
-  		</div>
-		
-		<div>
-			<label>Titolo</label>
-			<span><input type="text" required th:field="${review.title}" /></span>
-			<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
-			</span>
+	
+	<section id="body2">
+		<div class="col">
+			<form th:action="@{'/registered/addReviewToMovie/'+ ${movie.id}}" method="POST" th:object ="${review}">
+				<div th:if="${#fields.hasGlobalErrors()}">
+					<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+				</div>
+				<div>Voto:</div>
+				<div class="rating">
+					<input type="radio" name="star" id="star5" value="5" required th:field="${review.rating}">
+					<label for="star5" ></label>
+					
+					<input type="radio" name="star" id="star4" value="4" required th:field="${review.rating}">
+					<label for="star4" ></label>
+					
+					<input type="radio" name="star" id="star3" value="3" required th:field="${review.rating}">
+					<label for="star3" ></label>
+					
+					<input type="radio" name="star" id="star2" value="2" required th:field="${review.rating}">
+					<label for="star2" ></label>
+					
+					<input type="radio" name="star" id="star1" value="1" required th:field="${review.rating}">
+					<label for="star1" ></label>
+				</div>
+				
+				<div class="form-floating mb-3">
+					<input class="form-control" type="text" placeholder="Titolo" required th:field="${review.title}" />
+					<label for="floatingInput" class="form-label"> Titolo</label>
+					<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+					</span>
+				</div>
+				
+				<div class="form-floating mb-3">
+					<textarea class="form-control" id="floatingTextarea"  placeholder="Lascia un Commento"  name = "comment" maxlength="200" cols="60" rows="20" th:field="${review.text}" required = "required"></textarea>
+					<label for"floatingTextarea">Commento</label>
+				</div>
+				
+				<div>
+					<span><button type="submit" class="btn btn-outline-success" >Pubblica</button> </span>
+				</div>
+			</form>
 		</div>
 		
-		<div>
-			<label>Rating </label>
-			<span><input type="number" required th:field="${review.rating}" /></span>
-			</span>
+		<div  th:if="${movie.poster}" class="col">
+			<img width="70%"  th:src="@{'/display/image/' + ${movie.poster.id}}"/>
 		</div>
-		
-		
-		<div>
-			<label>Commento</label>
-			<textarea name = "comment" maxlength="200" cols="60" rows="20" th:field="${review.text}" required = "required"> Lascia un commento</textarea>
-			</span>
-		</div>
-			
-			
-			<div>
-				<span><button type="submit">Pubblica</button> </span>
-			</div>
-			
-		</div>
-	</form>
+	</section>
+	
+	
 </body>
 </html>

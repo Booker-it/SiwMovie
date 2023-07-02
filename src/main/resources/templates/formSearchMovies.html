@@ -4,6 +4,7 @@
 	<title>Cerca Film</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -12,12 +13,22 @@
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
-	<h1>Cerca film per anno</h1>
-	<form th:action="@{/searchMovies}" method="post">
-		<div>Anno: <input type="text" th:value="${year}" name="year" />
-		</div>
-		<div><input type="submit" /></div>
-	</form>
-</body>
+	
+	<div class="container pt-5">
+		<h1>Cerca film per anno</h1>
+		<form th:action="@{/searchMovies}" method="post">
+			<div class="form-floating mb-3">
+				<input class="form-control" id="floatingInput"  placeholder="Anno"   name="year" type="text" th:value="${year}" required />
+				<label for="floatingInput" class="form-label"> Anno</label>
+				
+			</div>
+			<div>
+				<div class="form-floating mb-3">
+				<button type="submit" class="btn btn-outline-success">Cerca</button>
+			</div>
+			</div>
+		</form>
+	</div>
 
+</body>
 </html>

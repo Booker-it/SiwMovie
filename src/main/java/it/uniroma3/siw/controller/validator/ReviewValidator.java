@@ -25,7 +25,7 @@ public class ReviewValidator implements Validator{
 		
 		if(review.getRating()<1)
 			errors.reject("Min.review.rating");
-		if(review.getRating()>10)
+		if(review.getRating()>5)
 			errors.reject("Max.review.rating");
 		
 	}

@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -42,8 +43,12 @@ public class Movie {
         @OneToMany(mappedBy = "movieReviewed", cascade = CascadeType.ALL)
         private Set<Review> reviews;
         
-        @OneToOne
+        @OneToOne(cascade = CascadeType.ALL)
         private Image poster;
+        
+        @OneToMany(cascade = CascadeType.ALL)
+        @JoinColumn(name = "scenes_id")
+        private Set<Image> scenes;
         
         public Long getId() {
             return id;
@@ -98,6 +103,14 @@ public class Movie {
 
 		public void setReviews(Set<Review> reviews) {
 			this.reviews = reviews;
+		}
+
+		public Set<Image> getScenes() {
+			return scenes;
+		}
+
+		public void setScenes(Set<Image> scenes) {
+			this.scenes = scenes;
 		}
 
 		@Override

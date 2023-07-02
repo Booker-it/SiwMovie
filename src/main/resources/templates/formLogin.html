@@ -6,35 +6,46 @@
 		SiwMovie - Login
 	</title>
 	<link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/login.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
-<body>
+
+
+<body >
+	
 	<header>
 		<div th:replace="~{/fragments/header :: header}"></div>
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
-	<h1>Login</h1>
-	<form th:action="@{/login}" method="POST">
-			<div>
-				<span>Username:</span>
-				<span><input name="username" type="text" required /></span>
+	
+	<div class="container">
+		<h1>Login</h1>
+		<form th:action="@{/login}" method="POST">
+			<div class="form-floating mb-3">
+				<input class="form-control" id="floatingInput"  placeholder="username"   name="username" type="text" required />
+				<label for="floatingInput" class="form-label"> Username</label>
+				
 			</div>
-			<div>
-				<span>Password:</span>
-				<span><input name="password" type="password" required /></span>
+			
+			<div class="form-floating mb-3">
+				<input class="form-control" placeholder="Password"  name="password" type="password" required />
+				<label for="floatingPassword" class="form-label"> Password</label>
 			</div>
 			<div>
 				<span th:if="${param.error != null}">Username o password errati</span>
 			</div>
-			<div>
-				<span><button type="submit">Login</button></span>
+			
+			<div class="form-floating mb-3">
+				<button type="submit" class="btn btn-outline-success">Login</button>
 			</div>
-	</form>
-	<div>
-		<a th:href="@{/register}" th:text="Registrati">Registrati</a>
+		</form>
+		<div>
+			<a th:href="@{/register}" th:text="Registrati">Registrati</a>
+		</div>
 	</div>
 </body>
-
 </html>

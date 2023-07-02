@@ -3,10 +3,13 @@
 
 <head>
 	<title>
-		New Movie
+		Update Movie
 	</title>
 	<link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/updateMovie.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -15,67 +18,112 @@
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
+	
 	<h1>Aggiorna film</h1>
-	<div th:if="${movie}">
+	<main th:if="${movie}" class="container">
+		<h2 th:text="${movie.title} + '(' + ${movie.year} + ')'"  >Up 2000</h2>
 		
-		<div>
-			<span th:text="${movie.title}">Up!</span>
-			<span th:text="'(' + ${movie.year} + ')'">2000</span>
-		</div>
-		
-		<div th:if="${movie.director}">
-			<span>Regista: </span><span th:text="${movie.director.name} + ' ' + ${movie.director.surname}">Steven Spielberg</span>
-			<a th:href="@{'/admin/addDirector/' + ${movie.id}}">Modifica regista</a></span>
-			<a th:href="@{'/admin/removeDirectorFromMovie/' + ${movie.director.id} + '/' + ${movie.id}}">Elimina regista</a></span>
-		</div>
-		
-		<div th:unless="${movie.director}">
-			<a th:href="@{'/admin/addDirector/' + ${movie.id}}">Aggiungi regista</a>
-		</div>
-
-		<div>
-			<span>Attori: </span>
-			<div th:each="actor: ${movie.actors}">
-				<span th:text="${actor.name} + ' ' + ${actor.surname}">Al Pacino</span>
+		<div class="album  ">
+			<div class="row row-cols-6 col">
+					<div >
+						<title>Placeholder</title>
+						<p th:if="${movie.poster}">
+							<img width="100%"  th:src="@{'/display/image/' + ${movie.poster.id}}"/>
+						</p>
+					</div>
 			</div>
-			<a th:href="@{'/admin/updateActors/' + ${movie.id}}">
-				<button type="button">Modifica</button>
-			</a>
+	</div>
+		
+		
+		<div class="row ">
+			<div class="d-grid gap-2">
+				<a th:href="@{'/admin/posterChange/' + ${movie.id}}"><button class="btn btn-warning" type="button">Modifica poster film</button></a>
+			</div>
+		<div class="row pt-2">
+			<div class="d-grid gap-2">
+				<a th:href="@{'/admin/scenesChange/' + ${movie.id}}"><button class="btn btn-warning" type="button">Modifica scene film</button></a>
+			</div>
+		
+		
+		
+		<span class="row c-item2">
+			<div class="d-grid gap-2">
+				<a th:href="@{'/admin/removeMovie/' + ${movie.id}}"><button class="btn btn-danger" type="button">Elimina questo film</button></a>
+			</div>
+		</span>
+
+		<div class="row mb-2">
+			<div class="col-md-6">
+				<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					<div class="col p-4 d-flex flex-column position-static">
+						<h3 class="mb-0">Attori:</h3>
+						<div th:each="actor: ${movie.actors}">
+							<span class="card-text mb-auto" th:text="${actor.name} + ' ' + ${actor.surname}">Al Pacino</span>
+						</div>
+						<a th:href="@{'/admin/updateActors/' + ${movie.id}}">
+						<button class="btn btn-outline-warning" type="button">Modifica</button></a>
+					</div>
+					<div class="col-auto d-none d-lg-block">
+						<img class="bd-placeholder-img" width="200" height="250"  src="/images/perAttori.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false" />
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-6">
+				<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					<div class="col p-4 d-flex flex-column position-static">
+						<h3 class="mb-0">Regista:</h3>
+						<div th:if="${movie.director}">
+							<p class="mb-auto"  th:text="${movie.director.name} + ' ' + ${movie.director.surname}"></p>
+							<a th:href="@{'/admin/addDirector/' + ${movie.id}}"><button class="btn btn-outline-warning" type="button">Modifica regista</button></a>
+							<a th:href="@{'/admin/removeDirectorFromMovie/' + ${movie.director.id} + '/' + ${movie.id}}"><button class="btn btn-outline-danger" type="button">Elimina regista</button></a>
+						</div>
+						
+						<div th:unless="${movie.director}">
+							<p class="mb-auto" > Nessun Direttore</p>
+							<a th:href="@{'/admin/addDirector/' + ${movie.id}}"><button class="btn btn-outline-success" type="button">Aggiungi regista</button></a>
+						</div>
+					</div>
+					<div class="col-auto d-none d-lg-block">
+						<img class="bd-placeholder-img" width="200" height="250"  src="/images/regista.jpg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
+					</div>
+				</div>
+			</div>
 		</div>
 		
-		<div>
-			<a th:href="@{'/admin/removeMovie/' + ${movie.id}}">
-				<button type="button">Elimina Film</button>
-			</a>
-		</div>
 		
-		
-		<div>
-			<span>Recensioni: </span>
+			
+			<h2> Recensioni:</h2>
 			<ul>
+				 
 				<li th:each="review: ${movie.reviews}">
+					<div class="bg-body-tertiary mb-3">
+					<div class="d-flex text-body-secondary pt-3 ">
+     					 <p class="material-icons"> account_circle</p>
+
+     					 <p class="pb-3 mb-0 small lh-sm border-bottom">
+      					 <strong class="d-block text-gray-dark" th:text="'Voto: ' + ${review.rating} +'/5'">Voto</strong>
+       				
+       						 <span th:text="${review.author.name}">Autore</span>
+     					 </p>
+   				 	</div>
+					<strong th:text="'Titolo:'"></strong>
+					<span th:text="${review.title}">titolo</span>
 					
 					<div>
-						<span th:text="'Autore: ' + ${review.author.name}">User</span>
+						<strong th:text="'Commento:'"></strong>
+						<span th:text="${review.text}">Commento</span>
 					</div>
-					
-					<div>
-						<span th:text="'Titolo: ' + ${review.title}">titolo</span>
-					</div>
-					
-					<div>
-						<span th:text="'Commento: ' +${review.text}">Commento</span>
-					</div>
-					
-					<div>
-						<a th:href="@{'/admin/removeReview/' + ${review.id}}">
-							<button type="button">Elimina recensione</button>
-						</a>
+					<p class="pt-3 c-item"> <a th:href="@{'/admin/removeReview/' + ${review.id}}">
+							<button class="btn btn-outline-danger" type="button">Elimina recensione</button>
+						</a> </p>
 					</div>
 				</li>
 			</ul>
 		</div>
-		<div th:unless="${movie}">Film non esistente</div>
-	</body>
+	</main>
+	<div th:unless="${movie}">Film non esistente</div>
+	
+</body>
+</html>
 
-	</html>

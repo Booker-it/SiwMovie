@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Movie
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+	
+	<div th:if="${movie}">
+		
+		<form class="container pt-5"  th:action="@{'/admin/updateScenesToMovie/' + ${movie.id}}" method="POST" th:object="${movie}" enctype="multipart/form-data">
+  		<div th:if="${#fields.hasGlobalErrors()}">
+  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+  		</div>
+
+		<h2>Modifica scene film</h2>
+				<div id="scenesMovie1" class="mb-3" >
+					<input class="form-control" id="scenesMovie" type="file" name="scenesMovie" accept="image/png, image/jpeg" required />
+				</div>
+				
+				<div id="scenesMovie2" class="mb-3" >
+					<input class="form-control" id="scenesMovie" type="file" name="scenesMovie" accept="image/png, image/jpeg" required />
+				</div>
+				
+				<div id="scenesMovie3" class="mb-3" >
+					<input class="form-control" id="scenesMovie" type="file" name="scenesMovie" accept="image/png, image/jpeg" required />
+				</div>
+		<div>
+			<button class="btn btn-outline-success" type="submit">Conferma</button>
+		</div>
+	</form>
+	<div th:unless="${movie}">Film non esistente</div>
+</body>
+
+</html>

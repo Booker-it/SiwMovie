@@ -1,0 +1,26 @@
+.c-item{
+	height: 480px;
+	
+}
+
+
+.c-img{
+	height: 100%;
+	object-fit: cover;
+	/* filter:brightness(0.6);*/
+}
+
+.container{
+	padding-top: 2%;
+}
+
+p.material-icons{
+	font-size: 50px;
+}
+
+li{
+	list-style: none;
+}
+ul{
+	list-style-type: none;
+}

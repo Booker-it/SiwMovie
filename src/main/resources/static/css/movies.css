@@ -1,0 +1,9 @@
+li{
+	list-style: none;
+}
+ul{
+	list-style-type: none;
+}
+p.c-item{
+	object-fit: inherit;
+}

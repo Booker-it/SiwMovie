@@ -5,6 +5,7 @@
 	<title>Film</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -13,14 +14,17 @@
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
+	<div class="container pt-5">
 	<h1>Film</h1>
 	<div th:if="${movies.isEmpty()}">Non ci sono film nel sistema</div>
-	<ul>
-		<li th:each="movie : ${movies}">
+	<ul class="list-group">
+		<li class="list-group-item" th:each="movie : ${movies}">
 			<span th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up! (2000)</span>
 			<a th:href="@{'/admin/formUpdateMovie' + '/' + ${movie.id}}">Aggiorna</a>
 		</li>
 	</ul>
+	</div>
 </body>
-
 </html>
+
+

@@ -18,11 +18,11 @@ public class FileUploadUtil {
 		this.image = image;
 	}
 
-	public Collection<MultipartFile> getSceneMovie() {
+	public Collection<MultipartFile> getScenesMovie() {
 		return scenesMovie;
 	}
 
-	public void setSceneMovie(Collection<MultipartFile> sceneMovie) {
+	public void setScenesMovie(Collection<MultipartFile> sceneMovie) {
 		this.scenesMovie = sceneMovie;
 	}
 	

@@ -4,7 +4,9 @@
 <head>
 	<title>Artisti</title>
 	<link rel="stylesheet" href="/css/stile.css" />
+	<link rel="stylesheet" href="/css/artists.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -13,14 +15,47 @@
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
+	
 	<h1>Artisti</h1>
-	<div th:if="${artists==null || artists.isEmpty()}">Non ci sono artisti nel sistema</div>
-	<ul>
-		<li th:each="artist : ${artists}">
-			<a th:href="@{'/artist' + '/' + ${artist.id}}"
-				th:text="${artist.name} + ' ' + ${artist.surname}">Dino Risi</a>
-		</li>
-	</ul>
+	
+	<div class="album py-5 bg-body-tertiary">
+		<ul class="flex-container">
+			<div class="row row-cols-6">
+			<li class="col" th:each="artist : ${artists}">
+					<div class="card shadow-sm">
+						<title>Placeholder</title>
+						<p th:if="${artist.photo}">
+							<img  width="100%" th:src="@{'/display/image/' + ${artist.photo.id}}"/>
+						</p>
+						<div class="card-body">
+							<p class="card-text" th:text="${artist.name} + ' ' + ${artist.surname}"></p>
+							<div class="d-flex justify-content-between align-items-center">
+								<strong th:text="'Data di nascita: '"> Data di nascita:</strong>
+								<span th:text="${artist.dateOfBirth}">20/20/2000</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+							<strong th:text="'Data di morte: '"> Data di morte:</strong>
+							 <span th:text="${artist.dateOfDeath}">20/20/2300</span>
+							 </div>
+						</div>
+					</div>
+			</li>
+			</div>
+		</ul>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </body>
 
 </html>
+
+
+

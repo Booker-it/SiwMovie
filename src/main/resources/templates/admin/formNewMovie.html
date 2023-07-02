@@ -7,6 +7,7 @@
 	</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -16,38 +17,64 @@
 	
 	<div th:replace="~{/fragments/logo :: logo}"></div>
 	
-	<h1>Aggiungi un film</h1>
 	
-	<form th:action="@{/admin/movie}" method="POST" th:object="${movie}" enctype="multipart/form-data">
-  		<div th:if="${#fields.hasGlobalErrors()}">
-  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
-  		</div>
+	
+	<form class="container pt-5" th:action="@{/admin/movie}" method="POST" th:object="${movie}" enctype="multipart/form-data">
+		<h1>Aggiungi un film</h1>
+		<div th:if="${#fields.hasGlobalErrors()}">
+			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+		</div>
 		
-		<div>
-			<label>Titolo:</label> 
-			<span><input type="text" th:field="${movie.title}" /></span>
-		    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
-		    </span>
+		<div class="form-floating mb-3">
+			<input class="form-control" id="floatingInput"  placeholder="title"   name="title" type="text" th:field="${movie.title}" required  />
+			<label for="floatingInput" class="form-label"> Titolo</label>
+			<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+			
 		</div>
 
-		<div>
-			<label>Anno:</label> <span><input type="text" th:field="${movie.year}" /></span>
-		    <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}">
-		    </span>
+		<div class="form-floating mb-3">
+			<input class="form-control" placeholder="year"  name="year" type="text" th:field="${movie.year}" required />
+			<label for="floatingYear" class="form-label"> Anno</label>
+			<span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
 		</div>
 
-		<div id="movie-image">
-			<h1>Immagine Film</h1>
-			<div id="picture" >
-				<input id="file" type="file" name="image" accept="image/png, image/jpeg" />
+		<div id="movie-image" class="pb-4" >
+			<h1>Locandina film</h1>
+			<div id="picture" class="mb-3" >
+				<input class="form-control" id="file" type="file" name="image" accept="image/png, image/jpeg" required />
 				<span th:if="${#fields.hasErrors('poster')}" th:errors="*{poster}">   <!-- non funziona -->
 			</div>
 			
+				
+			<!--	<h2>Scene film</h2>
+				<div id="scenesMovie" class="mb-3" >
+					<input class="form-control" id="scenesMovie" type="file" name="scenesMovie" multiple accept="image/png, image/jpeg" required />
+				</div> -->
+				
+				<h2>Scene film</h2>
+				<div id="scenesMovie1" class="mb-3" >
+					<input class="form-control" id="scenesMovie" type="file" name="scenesMovie" accept="image/png, image/jpeg" required />
+				</div>
+				
+				<div id="scenesMovie2" class="mb-3" >
+					<input class="form-control" id="scenesMovie" type="file" name="scenesMovie" accept="image/png, image/jpeg" required />
+				</div>
+				
+				<div id="scenesMovie3" class="mb-3" >
+					<input class="form-control" id="scenesMovie" type="file" name="scenesMovie" accept="image/png, image/jpeg" required />
+				</div>
 		</div>
-		<div>
-			<span><button type="submit">Conferma</button></span>
-		</div>
-	</form>
-</body>
+			
+			</div>	
+			
+					<button class="btn btn-outline-success" type="submit">Conferma</button>
+				</div>
+				
+		</form>
+		
+	</body>
 
-</html>
+	</html>
+	
+	
+	

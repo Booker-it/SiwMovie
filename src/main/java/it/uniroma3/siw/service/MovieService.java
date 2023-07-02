@@ -1,6 +1,8 @@
- package it.uniroma3.siw.service;
+package it.uniroma3.siw.service;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,22 +28,34 @@ public class MovieService {
 
 	@Autowired
 	private ArtistRepository artistRepository;
-	
+
 	@Autowired
 	private ImageRepository imageRepository;
-	
+
 	@Autowired
 	private ReviewRepository reviewRepository;
-	
+
 	@Autowired
 	private UserService userService;
 
 	@Transactional
-	public Movie createNewMovie (Movie movie, MultipartFile fileUploadLocandina) throws IOException{
-		
+	public Movie createNewMovie (Movie movie, MultipartFile fileUploadLocandina, Collection<MultipartFile> fileUploadScenes) throws IOException{
+
+		/* viene salvata l'immagine della locandina del film*/
 		movie.setPoster(this.imageRepository.save(new Image(fileUploadLocandina.getName(),fileUploadLocandina.getBytes())));
+
+		/* vengono salvate alcune immagini/scene del film */
+		Set<Image> scenesMovie = new HashSet<>();
+
+		for(MultipartFile scene : fileUploadScenes) {
+			if(!scene.isEmpty()) {
+				scenesMovie.add(this.imageRepository.save(new Image(scene.getName(),scene.getBytes())));
+			}
+		}
+		movie.setScenes(scenesMovie);
 		return this.movieRepository.save(movie);
 	}
+
 
 	//sulle operazioni di sola lettura andrebbe usato @Transactional(readOnly =true)
 	public Movie findMovieById(Long id) {
@@ -86,7 +100,7 @@ public class MovieService {
 		}
 		return movie;
 	}
-	
+
 	@Transactional
 	public Movie removeActorFromMovie(Long actorId, Long movieId) {
 		Movie movie = this.movieRepository.findById(movieId).orElse(null);
@@ -98,7 +112,7 @@ public class MovieService {
 		}
 		return movie;
 	}
-	
+
 	@Transactional
 	public Movie removeDirectorFromMovie(Long directorId, Long movieId) {
 		Movie movie = this.movieRepository.findById(movieId).orElse(null);
@@ -109,49 +123,93 @@ public class MovieService {
 		}
 		return movie;
 	}
-	
+
 	@Transactional
 	public boolean existMovieByTitleAndYear(String title, Integer year) {
 		return this.movieRepository.existsByTitleAndYear(title, year);
 	}
 
-	
+
 	@Transactional
 	public void removeMovie(Long id) {
 		Movie movie = this.movieRepository.findById(id).orElse(null);
 		Artist director = movie.getDirector();
 		Image poster  = movie.getPoster();
-		
+
 		if(director!=null)
 			director.getDirectedMovies().remove(movie);
-		
+
 		if(poster!=null)
 			this.imageRepository.delete(poster);
-		
+
 		Set<Artist> attori = movie.getActors();
 		for(Artist attore : attori) {
 			attore.getStarredMovies().remove(movie);
 		}
-		
+
 		this.movieRepository.delete(movie);
 	}
-	
-	
-	
+
+
+
 	@Transactional
 	public Movie newReviewToMovie(Review review,Long movieId) {
-			Movie movie = this.movieRepository.findById(movieId).orElse(null);
-			
-			review.setAuthor(this.userService.getCurrentUser());
-			review.setReviewed(movie);
-			
-			movie.getReviews().add(review);
-			
-			this.reviewRepository.save(review);
-			this.movieRepository.save(movie);
-			
-			
-			return movie;
+		Movie movie = this.movieRepository.findById(movieId).orElse(null);
+
+		review.setAuthor(this.userService.getCurrentUser());
+		review.setReviewed(movie);
+
+		movie.getReviews().add(review);
+
+		this.reviewRepository.save(review);
+		this.movieRepository.save(movie);
+
+
+		return movie;
+	}
+
+	@Transactional
+	public Movie updatePosterToMovie(Long movieId, MultipartFile fileUpload) throws IOException{
+		Movie movie = this.movieRepository.findById(movieId).orElse(null);
+
+		Image poster = movie.getPoster();
+
+		if(!fileUpload.isEmpty()) {
+			if(poster == null) {
+				movie.setPoster(new Image(fileUpload.getName(),fileUpload.getBytes()));
+			}
+			else {
+				poster.setName(fileUpload.getName());
+				poster.setData(fileUpload.getBytes());
+			}
+		}
+
+		return this.movieRepository.save(movie);
+	}
+
+
+	@Transactional
+	public Movie updateScenesToMovie(Long movieId, Collection<MultipartFile> fileUpload) throws IOException{
+		Movie movie = this.movieRepository.findById(movieId).orElse(null);
+		movie.getScenes().clear();
+		
+		for(MultipartFile scene : fileUpload) {
+
+			if(!scene.isEmpty()) {
+				if(movie.getScenes() == null) {
+					movie.getScenes().add(new Image(scene.getName(),scene.getBytes()));
+				}
+				else {
+					movie.getScenes().add(new Image(scene.getName(),scene.getBytes()));
+
+				}
+
+			}
+
+		}
+
+		return this.movieRepository.save(movie);
 	}
 }
+
 

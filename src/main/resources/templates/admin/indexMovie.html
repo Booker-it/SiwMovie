@@ -6,7 +6,9 @@
 		SiwMovie - Gestione Film
 	</title>
 	<link rel="stylesheet" href="/css/stile.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -15,15 +17,26 @@
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
-	<h1>Gestione Film</h1>
-	<div>
-		<a href="/admin/formNewMovie">Inserisci i dati di un film</a>
-	</div>
-	<div>
-		<a href="/admin/manageMovies">Gestisci i film</a>
-	</div>
-	<div>
-		<a href="/formSearchMovies">Cerca film per anno</a>
+	
+	<div class="container my-5">
+		<div class="p-5 text-center bg-body-tertiary rounded-3">
+			<svg class="bi mt-4 mb-4" style="color: var(--bs-indigo);" width="20" height="1"><img height="150px" src="/images/logoMin.png"></svg>
+			<h1 class="text-body-emphasis c-item pb-5 pt-2">Gestione Film</h1>
+			
+			<div class="d-inline-flex gap-2 mb-5">
+				<a href="/admin/formNewMovie"> <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button"> 
+				Inserisci i dati di un film
+				</button></a>
+				
+				<a href="/admin/manageMovies"><button class="btn btn-warning btn-lg px-4 rounded-pill" type="button">
+					Gestisci i film
+				</button></a>
+				
+					<a href="/formSearchMovies"><button class="btn btn-success btn-lg px-4 rounded-pill" type="button">
+					Cerca film per anno
+				</button></a>
+			</div>
+		</div>
 	</div>
 </body>
 

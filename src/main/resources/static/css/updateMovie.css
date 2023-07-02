@@ -1,0 +1,14 @@
+.c-item{
+	text-align: end;
+	padding-bottom: 1%;
+	padding-right: 1%;
+}
+
+.c-item2{
+	text-align: start;
+	padding-bottom: 2%;
+	padding-top: 1%;
+}
+h2, h1{
+	padding-top: 2%;
+}

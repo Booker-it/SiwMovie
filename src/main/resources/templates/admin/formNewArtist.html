@@ -7,6 +7,7 @@
 	</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
 </head>
 
 <body>
@@ -15,41 +16,44 @@
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
-	<h1>Aggiungi un artista</h1>
-	<form th:action="@{/admin/artist}" method="POST" th:object="${artist}" enctype="multipart/form-data">
+	
+	<form class="container pt-5" th:action="@{/admin/artist}" method="POST" th:object="${artist}" enctype="multipart/form-data">
+		<h1>Aggiungi un artista</h1>
 		<div th:if="${#fields.hasGlobalErrors()}">
   			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
   		</div>
 		
-		<div>
+		<div class="mb-3">
 			<label>Nome:</label> 
-			<span><input required type="text" th:field="${artist.name}" /></span>
+			<input class="form-control" required type="text" th:field="${artist.name}" />
 			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 		</div>
 
-		<div>
+		<div class="mb-3">
 			<label>Cognome:</label> 
-			<span><input required type="text" th:field="${artist.surname}" /></span>
+			<input class="form-control" required type="text" th:field="${artist.surname}" />
 			<span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
 		</div>
 
-		<div>
-			<label>Data di nascita:</label> <span><input type="date" th:field="${artist.dateOfBirth}" /></span>
+		<div class="mb-3">
+			<label>Data di nascita:</label> 
+			<input class="form-control" type="date" required th:field="${artist.dateOfBirth}" />
 		</div>
 		
-		<div>
-			<label>Data di morte:</label> <span><input type="date" th:field="${artist.dateOfDeath}" /></span>
+		<div class="mb-3">
+			<label>Data di morte:</label>
+			<input class="form-control" type="date" th:field="${artist.dateOfDeath}" />
 		</div>
 		
 		<div id="artist-image">
 			<h1>Fotografia Artista</h1>
-			<div id="picture" >
-				<input id="file" type="file" name="image" accept="image/png, image/jpeg" />
+			<div id="picture" class="mb-3" >
+				<input class="form-control" id="file" type="file" name="image" required accept="image/png, image/jpeg" />
 			</div>
 		</div>
 		
 		<div>
-			<span><button type="submit">Conferma</button></span>
+			<button class="btn btn-outline-success" type="submit">Conferma</button>
 		</div>
 	</form>
 </body>
