@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,7 +38,7 @@ public class Artist {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateOfDeath;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Image photo;
 	
 	@ManyToMany(mappedBy="actors")

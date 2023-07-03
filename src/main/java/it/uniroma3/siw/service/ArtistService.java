@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Image;
+import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.ImageRepository;
 import jakarta.transaction.Transactional;
@@ -19,7 +20,7 @@ import jakarta.transaction.Transactional;
 public class ArtistService {
 	@Autowired
 	private ArtistRepository artistRepository;
-	
+
 	@Autowired
 	private ImageRepository imageRepository;
 
@@ -43,7 +44,7 @@ public class ArtistService {
 		}
 		return actorsToAdd;
 	}
-	
+
 	@Transactional
 	public Artist findArtistById(Long artistId){
 		return this.artistRepository.findById(artistId).orElse(null);
@@ -53,4 +54,36 @@ public class ArtistService {
 	public boolean existArtistByByNameAndSurnameAndDateOfBirth(String name, String surname, LocalDate data) {
 		return this.artistRepository.existsByNameAndSurnameAndDateOfBirth(name, surname,data);
 	}
+
+	@Transactional
+	public void removeArtist(Long id) {
+		Artist artist = this.artistRepository.findById(id).orElse(null);
+
+		for(Movie movie: artist.getDirectedMovies()) {
+			if(movie.getDirector().equals(artist))
+				movie.setDirector(null);
+		}
+
+		for(Movie movie: artist.getStarredMovies()) {
+			movie.getActors().remove(artist);
+		}
+		this.artistRepository.delete(artist);
+	}
+
+
+	@Transactional
+	public Artist updatePhotoArtist(Long artistId, MultipartFile fileupload) throws IOException{
+		Artist artist = this.artistRepository.findById(artistId).orElse(null);
+		Image photo = artist.getPhoto();
+
+		if(photo == null)
+			artist.setPhoto(new Image(fileupload.getName(), fileupload.getBytes()));
+		else {
+			photo.setName(fileupload.getName());
+			photo.setData(fileupload.getBytes());
+		}
+
+		return this.artistRepository.save(artist);
+	}
+
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Cambio foto
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+	<div th:replace="~{/fragments/viewport :: viewport}"></div>
+	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{/fragments/header :: header}"></div>
+	</header>
+
+	<div th:replace="~{/fragments/logo :: logo}"></div>
+	
+	<div th:if="${artist}">
+		<form class="container pt-5"  th:action="@{'/admin/updatePhotoToArtist/' + ${artist.id}}" method="POST" th:object="${artist}" enctype="multipart/form-data">
+  		<div th:if="${#fields.hasGlobalErrors()}">
+  			<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+  		</div>
+
+		<div id="artist-image">
+			<h1 th:text="'Nuova foto per ' + ${artist.name} + ' ' + ${artist.surname}" >Nuova locandina per il film</h1>
+			<div id="photo" class="mb-3" >
+				<input class="form-control" id="file" type="file" name="image" accept="image/png, image/jpeg" required />
+			</div>
+		</div>
+		<div>
+			<button class="btn btn-outline-success" type="submit">Conferma</button>
+		</div>
+	</form>
+	<div th:unless="${artist}">Artista non esistente</div>
+</body>
+
+</html>

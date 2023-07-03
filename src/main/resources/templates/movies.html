@@ -21,14 +21,14 @@
 	
 	<div th:if="${movies==null || movies.isEmpty()}">Non ci sono film nel sistema</div>
 	
-	<div class="album py-5 bg-body-tertiary">
+	<div class="album py-5 bg-body-tertiary ">
 		<ul class="flex-container">
-			<div class="row row-cols-6">
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
 			<li class="col" th:each="movie : ${movies}">
 					<div class="card shadow-sm">
 						<title>Placeholder</title>
 						<p class="c-item" th:if="${movie.poster}">
-							<a th:href="@{'/movie' + '/' + ${movie.id}}"> <img class="img-responsive" width="100%"  th:src="@{'/display/image/' + ${movie.poster.id}}"/> </a>
+							<a th:href="@{'/movie' + '/' + ${movie.id}}"> <img width="100%"  th:src="@{'/display/image/' + ${movie.poster.id}}"/> </a>
 						</p>
 						<div class="card-body">
 							<a class="card-text" th:href="@{'/movie' + '/' + ${movie.id}}"  th:text="${movie.title} + ' (' + ${movie.year} + ')'"></a>

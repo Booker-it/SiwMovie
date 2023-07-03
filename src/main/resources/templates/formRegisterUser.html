@@ -20,6 +20,8 @@
 	
 	<form class="container-sm" th:action="@{/register}" method="POST">
 		<h1>Registrazione nuovo utente</h1>
+		
+		
 		<div class="form-floating mb-3">
 			<input class="form-control" id="floatingInput" type="text" name="Nome" placeholder="Nome" required th:field="${user.name}" />
 			<label for="floatingInput" class="form-label"> Nome</label>
@@ -35,7 +37,7 @@
 		</div>
 		
 		<div class="form-floating mb-3">
-			<input class="form-control" id="floatingInput"  name="Email" type="text" placeholder="Email" required th:field="${user.email}" />
+			<input class="form-control" id="floatingInput"  name="Email" type="email" placeholder="Email" required th:field="${user.email}" />
 			<label for="floatingInput" class="form-label"> Email</label>
 			<span th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}" th:style="'color:red'">
 			</span>
@@ -44,7 +46,7 @@
 		<div class="form-floating mb-3">
 			<input class="form-control" id="floatingInput"  name="Username" type="text" placeholder="username" required th:field="${credentials.username}" />
 			<label for="floatingInput" class="form-label"> Username</label>
-			<span th:if="${#fields.hasErrors('credentials.username')}" th:errors="${credentials.username}"
+			<span th:if="${#fields.hasErrors('credentials.username')}" th:errors="*{credentials.username}"
 				th:style="'color:red'">
 			</span>
 		</div>

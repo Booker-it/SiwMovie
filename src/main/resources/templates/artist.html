@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Artista</title>
+<head>
+	<title>Artista</title>
 	<link rel="stylesheet" href="/css/stile.css" />
 	<div th:replace="~{/fragments/viewport :: viewport}"></div>
 	<div th:replace="~{/fragments/bootstrap :: bootstrap}"></div>
@@ -13,15 +13,29 @@
 	</header>
 
 	<div th:replace="~{/fragments/logo :: logo}"></div>
-    <h1>Dettagli Artista</h1>
-    <div th:if="${artist}">
-        <span th:text="${artist.name} + ' ' + ${artist.surname}">Dino Risi</span>
-        <span th:text="'(' + ${artist.dateOfBirth} + ')'">20/20/2000</span>
-        <span th:text="'(' + ${artist.dateOfDeath} + ')'">20/20/2300</span>
-        <div th:if="${artist.photo}">
-	        <img width="10%" th:src="@{'/display/image/' + ${artist.photo.id}}"/>
-   		</div>
-    </div>
-    <div th:unless="${artist}">Non esiste</div>
-  </body>
+	<h1>Dettagli Artista</h1>
+	<div class="album py-5 bg-body-tertiary" th:if="${artist}">
+			<div class="row row-cols-6 flex-container">
+				<div class="card shadow-sm">
+					<title>Placeholder</title>
+					<p th:if="${artist.photo}">
+						<img class="img-responsive" width="100%" th:src="@{'/display/image/' + ${artist.photo.id}}"/>
+					</p>
+					<div class="card-body">
+						<p class="card-text" th:text="${artist.name} + ' ' + ${artist.surname}"></p>
+						<div class="d-flex justify-content-between align-items-center">
+							<strong th:text="'Data di nascita: '"> Data di nascita:</strong>
+							<span th:text="${artist.dateOfBirth}">20/20/2000</span>
+						</div>
+						<div class="d-flex justify-content-between align-items-center">
+							<strong th:text="'Data di morte: '"> Data di morte:</strong>
+							<span th:text="${artist.dateOfDeath}">20/20/2300</span>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	<div th:unless="${artist}">Non esiste</div>
+</body>
 </html>
+

@@ -21,7 +21,7 @@
 	<div class="album py-5 bg-body-tertiary">
 		<ul class="flex-container">
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
-			<li class="col pt-3" th:each="artist : ${artists}">
+			<li class="col" th:each="artist : ${artists}">
 					<div class="card shadow-sm">
 						<title>Placeholder</title>
 						<p th:if="${artist.photo}">
@@ -37,12 +37,27 @@
 							<strong th:text="'Data di morte: '"> Data di morte:</strong>
 							 <span th:text="${artist.dateOfDeath}">20/20/2300</span>
 							 </div>
+							 <div class="d-grid gap-2 pt-1">
+								<a th:href="@{'/admin/photoChange/' + ${artist.id}}"><button class="btn btn-warning" type="button">Modifica foto</button></a>
+							</div>
+							 <div class="d-grid gap-2 pt-1">
+								<a th:href="@{'/admin/removeArtist/' + ${artist.id}}"><button class="btn btn-danger" type="button">Elimina Artista</button></a>
+							</div>
 						</div>
 					</div>
 			</li>
 			</div>
 		</ul>
 	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </body>
 

@@ -305,6 +305,7 @@ public class MovieController {
 			return "redirect:/movie/" + movieId;   //senza redirect dà errore sul templating
 			
 		}	
+		model.addAttribute("movie", this.movieService.findMovieById(movieId));
 		return "/registered/formAddReview.html";
 	}
 }

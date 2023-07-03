@@ -54,6 +54,7 @@ public class ArtistController {
 		} catch (IOException e) {
 			// TODO: handle exception
 			//aggiungere informazione per utente per l'errore
+			model.addAttribute("messaggioErrore", "Errore nell'upload");
 			return "admin/formNewArtist.html";
 		}
 			
@@ -74,9 +75,60 @@ public class ArtistController {
 		return "artistError.html";
 	}
 
-	@GetMapping("/artist")
+	@GetMapping("/artists")
 	public String getArtists(Model model) {
 		model.addAttribute("artists", this.artistService.findAllArtist());
 		return "artists.html";
+	}
+	
+	@GetMapping("/admin/manageArtists")
+	public String getManageArtists(Model model) {
+		model.addAttribute("artists", this.artistService.findAllArtist());
+		return "/admin/manageArtists.html";
+	}
+	
+	
+/*************************** Photo Update Artist ******************************/
+	
+	@GetMapping(value="/admin/photoChange/{artistId}")
+	public String photoChange(@PathVariable("artistId") Long artistId, Model model) {
+		Artist artist = this.artistService.findArtistById(artistId);
+		if(artist!=null)
+			model.addAttribute("artist", artist);
+		else {
+			return "/errors/artistError.html";
+		}
+		return "/admin/photoChange.html";
+	}
+	
+	@PostMapping(value="/admin/updatePhotoToArtist/{artistId}")
+	public String updatePhotoToArtist(@PathVariable("artistId") Long artistId, 
+			@ModelAttribute FileUploadUtil fileUpload, BindingResult bindingResult, Model model) {
+
+		this.fileValidator.validate(fileUpload, bindingResult);
+
+		if (!bindingResult.hasErrors()) {
+			try {
+				this.artistService.updatePhotoArtist(artistId,fileUpload.getImage());
+				model.addAttribute("artists",this.artistService.findAllArtist());
+				return "/admin/manageArtists.html";
+			}
+			catch (IOException e) {
+				model.addAttribute("messaggioErrore", "Upload non riuscito!");
+				return "/admin/manageArtists.html";
+			}
+		} 
+		else {
+			return "/admin/manageArtists.html"; 
+		}
+	}
+	
+	/*******************************************Eliminazione Artista Admin ************************************************/
+	
+	@GetMapping(value="/admin/removeArtist/{artistId}")
+	public String removeMovie(@PathVariable("artistId") Long artistId, Model model) {
+		this.artistService.removeArtist(artistId);
+		model.addAttribute("artists", this.artistService.findAllArtist());
+		return "/admin/manageArtists.html";
 	}
 }
